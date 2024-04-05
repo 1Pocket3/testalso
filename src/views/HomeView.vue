@@ -1,10 +1,6 @@
 <template>
-  <div class="container">
-    <AppHeader/>
     <Promo/>
     <AppBody/>
-    <AppFooter/>
-  </div>
 </template>
 
 <script lang="ts">

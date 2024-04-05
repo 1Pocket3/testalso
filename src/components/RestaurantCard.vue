@@ -1,6 +1,6 @@
 <template>
     <a
-        :href="`/restaurant/${partner.id}`"
+        :href="partnerProductsHref"
         class='card card-restaurant'
       >
         <img
@@ -45,7 +45,12 @@ import { Partner } from './AppBody.vue'
 })
 
 export default class RestaurantCard extends Vue {
-  // Define 'partner' property
   partner!: Partner;
+
+  get partnerProductsHref (): string {
+    const productPath = this.partner.products.replace('.json', '')
+    return `/${productPath}`
+  }
 }
+
 </script>

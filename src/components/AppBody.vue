@@ -4,8 +4,8 @@
       <h2 class="section-title">Рестораны</h2>
       <label class="search">
         <input
-          type="text"
-          class="input input-search"
+          type='text'
+          class='input input-search'
           placeholder='Поиск блюд и ресторанов'
         />
       </label>
@@ -23,7 +23,6 @@
 <script lang='ts'>
 import RestaurantCard from '@/components/RestaurantCard.vue'
 import { Options, Vue } from 'vue-class-component'
-import dbData from '@/db/db.json'
 
 export interface Partner {
   id: number;
@@ -48,8 +47,8 @@ export interface Partner {
     }
   },
   mounted () {
-    this.partners = dbData.db.partners
-    console.log(this.partners, 'DB DATA')
+    this.partners = this.$store.state.dbData.db.partners
+    console.log(this.partners, 'partners')
   }
 })
 export default class AppBody extends Vue {

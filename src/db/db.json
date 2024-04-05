@@ -3,7 +3,7 @@
         "partners": [
             {
                 "name": "Пицца Плюс",
-                "time_of_delivery": 50,
+                "timeOfDelivery": 50,
                 "stars": 4.5,
                 "price": 900,
                 "kitchen": "Пицца",
@@ -12,7 +12,7 @@
             },
             {
                 "name": "Тануки",
-                "time_of_delivery": 60,
+                "timeOfDelivery": 60,
                 "stars": 4.3,
                 "price": 1200,
                 "kitchen": "Суши, роллы",
@@ -21,7 +21,7 @@
             },
             {
                 "name": "FoodBand",
-                "time_of_delivery": 40,
+                "timeOfDelivery": 40,
                 "stars": 4.4,
                 "price": 450,
                 "kitchen": "Пицца",
@@ -30,7 +30,7 @@
             },
             {
                 "name": "Палки скалки",
-                "time_of_delivery": 55,
+                "timeOfDelivery": 55,
                 "stars": 4.1,
                 "price": 500,
                 "kitchen": "Пицца",
@@ -39,7 +39,7 @@
             },
             {
                 "name": "Гуси Лебеди",
-                "time_of_delivery": 75,
+                "timeOfDelivery": 75,
                 "stars": 4.7,
                 "price": 1000,
                 "kitchen": "Русская кухня",
@@ -48,7 +48,7 @@
             },
             {
                 "name": "PizzaBurger",
-                "time_of_delivery": 45,
+                "timeOfDelivery": 45,
                 "stars": 4.6,
                 "price": 700,
                 "kitchen": "Пицца",
