@@ -1,4 +1,5 @@
 <template>
+  <div class="footer">
     <div class="container">
       <div class="footer-block">
         <img :src="require('@/assets/img/icon/logo.svg')" alt="logo" class="logo footer-logo" />
@@ -23,6 +24,7 @@
       </div>
       <!-- /.footer-block -->
     </div>
+  </div>
 </template>
 
 <script lang="ts">

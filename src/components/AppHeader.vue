@@ -30,7 +30,6 @@ import { Options, Vue } from 'vue-class-component'
 
 @Options({
   components: {
-    // TestComponent
   },
   data () {
     return {
