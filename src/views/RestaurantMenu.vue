@@ -12,18 +12,37 @@
     },
     data() {
       return {
-        menuItems: [] as MenuItem[],
         title: {} as Title,
-        expensiveActive: false,
-        cheaperActive: false,
+        sortDirection: null as null | 'asc' | 'desc',
       };
     },
     computed: {
       ...mapGetters([DB, PARTNERS]),
+      menuItems(): MenuItem[] {
+        const currentName = this.$route.params.name;
+        const menuItems = this.DB[currentName];
+        if (this.sortDirection === 'asc') {
+          return menuItems.slice().sort((a, b) => a.price - b.price);
+        } else if (this.sortDirection === 'desc') {
+          return menuItems.slice().sort((a, b) => b.price - a.price);
+        } else {
+          return menuItems;
+        }
+      },
+      sortedMenuItems(): MenuItem[] {
+        const currentName = this.$route.params.name;
+        const menuItems = this.DB[currentName];
+        if (this.sortDirection === 'asc') {
+          return menuItems.slice().sort((a: MenuItem, b: MenuItem) => a.price - b.price);
+        } else if (this.sortDirection === 'desc') {
+          return menuItems.slice().sort((a: MenuItem, b: MenuItem) => b.price - a.price);
+        } else {
+          return menuItems;
+        }
+      },
     },
     mounted(): void {
       const currentName = this.$route.params.name;
-      this.menuItems = this.DB[currentName];
       this.title = this.PARTNERS.find(
         (partner: Partner) => partner.products.indexOf(currentName) !== -1
       );
@@ -32,14 +51,13 @@
       ...mapActions([ADD_TO_CART]),
       addToCart(item: MenuItem): void {
         const mutatedData = { ...item, quantity: 1 };
-
         this.ADD_TO_CART(mutatedData);
       },
       toggleExpensiveActive(): void {
-        this.expensiveActive = !this.expensiveActive;
+        this.sortDirection = this.sortDirection === 'desc' ? null : 'desc';
       },
       toggleCheaperActive(): void {
-        this.cheaperActive = !this.cheaperActive;
+        this.sortDirection = this.sortDirection === 'asc' ? null : 'asc';
       },
     },
   };
@@ -60,14 +78,14 @@
           <div class="filters__btn">
             <button
               class="expensive"
-              :class="{ active: expensiveActive }"
+              :class="{ active: sortDirection === 'desc' }"
               @click="toggleExpensiveActive()"
             >
               Самые дорогие
             </button>
             <button
               class="cheaper"
-              :class="{ active: cheaperActive }"
+              :class="{ active: sortDirection === 'asc' }"
               @click="toggleCheaperActive()"
             >
               Самые дешёвые
