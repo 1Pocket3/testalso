@@ -1,57 +1,68 @@
-<template>
-    <header class="app-header">
-      <a class="logo">
-        <img :src="require('@/assets/img/icon/logo.svg')" alt="Logo" />
-      </a>
-      <label class="address">
-        <input
-          type="text"
-          class="input input-address"
-          placeholder="Адрес доставки"
-          v-model="address"
-        />
-      </label>
-      <div class="buttons">
-        <span class="user-name">{{ userName }}</span>
-        <button class="button button-primary button-auth" @click="goToCart">
-          <span class="button-text">Корзина</span>
-        </button>
-        <button class="button button-primary button-auth" @click="login">
-          <span class="button-auth-svg"></span>
-          <span class="button-text">Войти</span>
-        </button>
-      </div>
-    </header>
-</template>
-
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component'
+  import { mapGetters, mapMutations } from "vuex";
+  import HeaderLogo from "@/assets/img/icon/logo.svg";
+  import { CART } from "@/store/getters";
+  import { TOGGLE_AUTH_MODAL, TOGGLE_CART_MODAL } from "@/store/mutations";
 
-@Options({
-  components: {
-  },
-  data () {
-    return {
-      address: '',
-      userName: '' // Предположим, что это свойство будет заполняться при успешном входе пользователя
-    }
-  },
-  methods: {
-    login () {
-      this.$store.state.showAuthModal = true
+  export default {
+    data() {
+      return {
+        address: "",
+        userName: "", // Предположим, что это свойство будет заполняться при успешном входе пользователя
+      };
     },
-    logout () {
-      return console.log('Loggeed out! :)')
+    computed: {
+      ...mapGetters([CART]),
+      logo(): string {
+        return HeaderLogo;
+      },
     },
-    goToCart () {
-      this.$store.state.showCartModal = true
-    }
-  }
-})
-export default class AppHeader extends Vue {
-  address = '' as string;
-  userName = '' as string;
-  login!: () => void;
-  goToCart!: () => void;
-}
+    methods: {
+      ...mapMutations([TOGGLE_AUTH_MODAL, TOGGLE_CART_MODAL]),
+      login(): void {
+        this.TOGGLE_AUTH_MODAL(true);
+      },
+      logout(): void {
+        return console.log("Loggeed out! :)");
+      },
+      goToCart(): void {
+        this.TOGGLE_CART_MODAL(true);
+      },
+      goToHome(): void {
+        this.$router.push("/");
+      },
+    },
+  };
 </script>
+
+<template>
+  <header class="app-header">
+    <a class="logo" @click="goToHome">
+      <img :src="logo" alt="Logo" />
+    </a>
+    <label class="address">
+      <input
+        type="text"
+        class="input input-address"
+        placeholder="Адрес доставки"
+        v-model="address"
+      />
+    </label>
+    <div class="buttons">
+      <span class="user-name">{{ userName }}</span>
+      <button
+        v-if="CART.length"
+        class="button button-primary button-auth"
+        @click="goToCart"
+      >
+        <!-- <span class="button-text">Корзина</span> -->
+        <span class="button-cart-svg"></span>
+        <span>{{ CART.length }}</span>
+      </button>
+      <button class="button button-primary button-auth" @click="login">
+        <span class="button-auth-svg"></span>
+        <span class="button-text">Войти</span>
+      </button>
+    </div>
+  </header>
+</template>

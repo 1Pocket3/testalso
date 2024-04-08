@@ -1,18 +1,16 @@
-import { createStore } from 'vuex'
-import db from '@/db/db.json'
+import { createStore, type Store } from "vuex";
+import actions from "./actions";
+import getters from "./getters";
+import mutations from "./mutations";
+import state from "./state";
 
-export default createStore({
-  state: {
-    dbData: db,
-    showAuthModal: false,
-    showCartModal: false
-  },
-  getters: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
-  modules: {
-  }
-})
+import { StoreState } from "@/models";
+
+const store: Store<StoreState> = createStore({
+  state,
+  getters,
+  mutations,
+  actions,
+});
+
+export default store;

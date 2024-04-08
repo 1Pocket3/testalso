@@ -1,8 +1,48 @@
+<script lang="ts">
+  import FooterLogo from "@/assets/img/icon/logo.svg";
+  import InstagramLogo from "@/assets/img/social/instagram.svg";
+  import FacebookLogo from "@/assets/img/social/fb.svg";
+  import VKLogo from "@/assets/img/social/vk.svg";
+
+  interface SocialLink {
+    url: string;
+    imgSrc: string;
+    imgAlt: string;
+  }
+
+  export default {
+    computed: {
+      logo(): string {
+        return FooterLogo;
+      },
+      socialLinks(): SocialLink[] {
+        return [
+          {
+            url: "#",
+            imgSrc: InstagramLogo,
+            imgAlt: "Instagram",
+          },
+          {
+            url: "#",
+            imgSrc: FacebookLogo,
+            imgAlt: "Facebook",
+          },
+          {
+            url: "#",
+            imgSrc: VKLogo,
+            imgAlt: "VKontakte",
+          },
+        ];
+      },
+    },
+  };
+</script>
+
 <template>
   <div class="footer">
     <div class="container">
       <div class="footer-block">
-        <img :src="require('@/assets/img/icon/logo.svg')" alt="logo" class="logo footer-logo" />
+        <img :src="logo" alt="logo" class="logo footer-logo" />
         <nav class="footer-nav">
           <a href="#" class="footer-link">Ресторанам </a>
           <a href="#" class="footer-link">Курьерам</a>
@@ -10,15 +50,14 @@
           <a href="#" class="footer-link">Контакты</a>
         </nav>
         <div class="social-links">
-          <a href="#" class="social-link"
-            ><img :src="require('@/assets/img/social/instagram.svg')" alt="instagram"
-          /></a>
-          <a href="#" class="social-link"
-            ><img :src="require('@/assets/img/social/fb.svg')" alt="facebook"
-          /></a>
-          <a href="#" class="social-link"
-            ><img :src="require('@/assets/img/social/vk.svg')" alt="vk"
-          /></a>
+          <a
+            v-for="link in socialLinks"
+            :key="link.imgSrc"
+            :href="link.url"
+            class="social-link"
+          >
+            <img :src="link.imgSrc" :alt="link.imgAlt" />
+          </a>
         </div>
         <!-- /.social-links -->
       </div>
@@ -26,15 +65,3 @@
     </div>
   </div>
 </template>
-
-<script lang="ts">
-import { Options, Vue } from 'vue-class-component'
-
-@Options({
-  components: {
-    // TestComponent
-  }
-})
-
-export default class Footer extends Vue {}
-</script>

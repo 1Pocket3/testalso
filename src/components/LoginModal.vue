@@ -1,3 +1,17 @@
+<script lang="ts">
+  import { mapMutations } from "vuex";
+  import { TOGGLE_AUTH_MODAL } from "@/store/mutations";
+
+  export default {
+    methods: {
+      ...mapMutations([TOGGLE_AUTH_MODAL]),
+      closeModal(): void {
+        this.TOGGLE_AUTH_MODAL(false);
+      },
+    },
+  };
+</script>
+
 <template>
   <div class="modal-auth">
     <div class="modal-dialog modal-dialog-auth">
@@ -28,22 +42,5 @@
     <!-- /.modal-dialog -->
   </div>
 </template>
-
-<script lang="ts">
-import { Options, Vue } from 'vue-class-component'
-
-@Options({
-  components: {},
-  methods: {
-    closeModal () {
-      this.$store.state.showAuthModal = false
-    }
-  }
-})
-
-export default class LoginModal extends Vue {
-  closeModal!: () => void
-}
-</script>
 
 <style></style>

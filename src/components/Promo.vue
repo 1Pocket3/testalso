@@ -1,3 +1,7 @@
+<script lang="ts">
+  export default {};
+</script>
+
 <template>
   <section class="container-promo">
     <section class="promo pizza">
@@ -7,8 +11,8 @@
         антисептиком
       </p>
     </section>
-    </section>
-    <!-- <section class="promo kebab">
+  </section>
+  <!-- <section class="promo kebab">
       <h1 class="promo-title">
         Шашлыки на майские <br />
         со скидкой 35%
@@ -37,17 +41,3 @@
     </section>
   </section> -->
 </template>
-
-<script lang="ts">
-import { Options, Vue } from 'vue-class-component'
-
-@Options({
-  components: {
-    // TestComponent
-  },
-  methods: {
-
-  }
-})
-export default class Promo extends Vue {}
-</script>
