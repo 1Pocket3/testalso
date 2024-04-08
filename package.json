@@ -12,7 +12,7 @@
     "vue": "^3.2.13",
     "vue-class-component": "^8.0.0-0",
     "vue-router": "^4.0.3",
-    "vuex": "^4.0.0"
+    "vuex": "^4.1.0"
   },
   "devDependencies": {
     "@types/jest": "^27.0.1",
@@ -46,7 +46,8 @@
     "extends": [
       "plugin:vue/vue3-essential",
       "@vue/standard",
-      "@vue/typescript/recommended"
+      "@vue/typescript/recommended",
+      "plugin:prettier/recommended"
     ],
     "parserOptions": {
       "ecmaVersion": 2020

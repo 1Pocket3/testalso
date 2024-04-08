@@ -7,12 +7,13 @@
           type='text'
           class='input input-search'
           placeholder='Поиск блюд и ресторанов'
+          @input="filterItems"
         />
       </label>
     </div>
     <div class='cards cards-restaurants'>
       <RestaurantCard
-        v-for="partner in partners"
+        v-for="partner in filteredPartners"
         :key="partner.id"
         :partner="partner as Partner"
       />
@@ -23,35 +24,43 @@
 <script lang='ts'>
 import RestaurantCard from '@/components/RestaurantCard.vue'
 import { Options, Vue } from 'vue-class-component'
-
-export interface Partner {
-  id: number;
-  name: string;
-  timeOfDelivery: number;
-  stars: number;
-  price: number;
-  kitchen: string;
-  image: string;
-  products: string;
-  partner: object;
-}
+import { mapGetters } from 'vuex'
+import { Partner } from '@/models'
 
 @Options({
   components: {
     RestaurantCard
   },
-  methods: {},
-  data () {
-    return {
-      partners: [] as Partner[]
+  computed: {
+    ...mapGetters([
+      'PARTNERS',
+      'DB'
+    ])
+  },
+  methods: {
+    filterItems (event:Event) {
+      const target = event.target as HTMLInputElement
+      const value = target.value.toLowerCase()
+      this.filteredPartners = this.PARTNERS.filter((partner:Partner) => {
+        const partnerName = partner.products.split('.')[0]
+        const filteredMenu = this.DB[partnerName].filter((menu:Partner) => {
+          return menu.name.toLowerCase().indexOf(value) > -1 || menu.description.toLowerCase().indexOf(value) > -1
+        })
+        return filteredMenu.length || partner.name.toLowerCase().indexOf(value) > -1
+      })
     }
   },
   mounted () {
-    this.partners = this.$store.state.dbData.db.partners
-    console.log(this.partners, 'partners')
+    this.filteredPartners = this.PARTNERS
+  },
+  data () {
+    return {
+      filteredPartners: [] as Partner[]
+    }
   }
 })
 export default class AppBody extends Vue {
-  partners: Partner[] = [];
+  filteredPartners: Partner[] = [];
+  filterItems!: () => void;
 }
 </script>

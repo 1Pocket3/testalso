@@ -28,7 +28,7 @@
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component'
-import { Partner } from './AppBody.vue'
+import { Partner } from '@/models'
 
 @Options({
   components: {},

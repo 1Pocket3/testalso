@@ -10,33 +10,26 @@
               <div class="category">{{title.kitchen}}</div>
             </div>
             <!-- /.card-info -->
+            <div class="filters__btn">
+              <button class="expensive"
+              :class="{ active: expensiveActive }"
+              @click="toggleExpensiveActive()">
+                Самые дорогие
+            </button>
+            <button class="cheaper"
+              :class="{ active: cheaperActive }"
+              @click="(toggleCheaperActive())">
+                Самые дешёвые
+              </button>
+            </div>
           </div>
           <div class="cards cards-menu">
-            <div class="card" v-for="(item, index) in menuItems" :key="index">
-              <img
-                :src="require(`@/assets/${item.image}`)"
-                alt="image"
-                class="card-image"
-              />
-              <div class="card-text">
-                <div class="card-heading">
-                  <h3 class="card-title card-title-reg">{{ item.name }}</h3>
-                </div>
-                <!-- /.card-heading -->
-                <div class="card-info">
-                  <div class="ingredients">{{ item.description }}</div>
-                </div>
-                <!-- /.card-info -->
-                <div class="card-buttons">
-                  <button class="button button-primary button-add-cart">
-                    <span class="button-card-text">В корзину</span>
-                    <span class="button-cart-svg"></span>
-                  </button>
-                  <strong class="card-price-bold">{{ item.price }}</strong>
-                </div>
-              </div>
-              <!-- /.card-text -->
-            </div>
+            <MenuCard
+            v-for="item in menuItems"
+            :key="item.id"
+            :item="item as MenuItem"
+            @addToCart="addToCart"
+            />
             <!-- /.card -->
           </div>
           <!-- /.cards -->
@@ -48,36 +41,20 @@
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component'
-
-interface MenuItem {
-  id: string;
-  name: string;
-  image: string;
-  description: string;
-  price: number;
-}
-
-interface dbData {
-  db: object
-}
-
-interface Title {
-  name: string;
-  stars: string;
-  price: number;
-  kitchen: string;
-}
+import MenuCard from '@/components/MenuCard.vue'
+import { mapActions } from 'vuex'
+import { MenuItem, Title, dbData } from '@/models'
 
 @Options({
-  components: {},
-  // computed: {
-  //   ...mapState(['dbData'])
-  // },
+  components: {
+    MenuCard
+  },
   data () {
     return {
       menuItems: [] as MenuItem[],
       title: {} as Title,
-      showAuthModal: true as boolean
+      expensiveActive: false,
+      cheaperActive: false
     }
   },
   mounted () {
@@ -85,11 +62,50 @@ interface Title {
     this.menuItems = this.$store.state.dbData.db[currentName]
     // eslint-disable-next-line
     this.title = this.$store.state.dbData.db.partners.find((partner:any) => partner.products.indexOf(currentName) !== -1)
+  },
+  methods: {
+    ...mapActions([
+      'ADD_TO_CART'
+    ]),
+    addToCart (data:object) {
+      const mutatedData = { ...data, quantity: 1 }
+
+      this.ADD_TO_CART(mutatedData)
+    },
+    toggleExpensiveActive () {
+      this.expensiveActive = !this.expensiveActive
+    },
+    toggleCheaperActive () {
+      this.cheaperActive = !this.cheaperActive
+    }
   }
 })
 export default class RestaurantMenu extends Vue {
   menuItems: MenuItem[] = [];
   dbData: dbData[] = [];
   title: Title = {} as Title;
+  addToCart!: () => void;
+  expensiveActive = false;
+  cheaperActive = false;
+  toggleExpensiveActive!: () => void;
+  toggleCheaperActive!: () => void;
 }
 </script>
+
+<style>
+
+  .filters__btn {
+    margin-left: auto;
+  }
+
+  .filters__btn button {
+  margin-right: 10px;
+}
+
+.filters__btn button.active {
+  /* Стили для активной кнопки */
+  /* Например, изменение цвета фона или текста */
+  background-color: #4CAF50;
+  color: white;
+}
+</style>
